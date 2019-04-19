@@ -7,6 +7,9 @@
     .loginForm {
         width: 240px;
     }
+    .loginButton {
+        margin-right: 10px;
+    }
 </style>
 
 <!--全局局部覆盖样式-->
@@ -37,9 +40,11 @@
             <el-form-item>
                 <el-button
                     type="primary"
+                    class="loginButton"
                     @click="handleLoginClick">
                     登录
                 </el-button>
+                <router-link to="/register">注册</router-link>
             </el-form-item>
         </el-form>
     </div>
@@ -91,7 +96,12 @@ import { setTimeout } from 'timers';
                 handleRouteChange (nv) {
                     if (nv.query.jmp) {
                         this.jmpUrl = nv.query.jmp;
-                        console.log(this.jmpUrl);
+                    }
+                    else {
+                        this.$message({
+                            type: "error",
+                            message: "无效跳转地址",
+                        });  
                     }
                 },
                 handleLoginClick () {
@@ -126,7 +136,10 @@ import { setTimeout } from 'timers';
                                 location.assign(`${ this.jmpUrl }?t=${ encodeURIComponent(result.data.token) }`);
                             }
                             else {
-
+                                this.$message({
+                                    type: "error",
+                                    message: "无效跳转地址",
+                                });
                             }
                         }
                         else {
@@ -155,7 +168,7 @@ import { setTimeout } from 'timers';
 
         },
         mounted () {
-            console.log(encodeURIComponent("http://www.baidu.com/"));
+
         },
         components: {
 

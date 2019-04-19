@@ -8,7 +8,6 @@
         width: 100%;
         height: 100%;
     }
-
     .elHeader {
         border-bottom: solid 1px #eee;
     }
@@ -20,6 +19,10 @@
         height: 100%;
         padding: 0px;
         margin: 0px;
+    }
+    a {
+        color: #2baaff;
+        text-decoration: none;
     }
 </style>
 
