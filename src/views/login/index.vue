@@ -53,7 +53,6 @@
 <script>
     import hash from "../../utils/hash";
     import api from "../../api";
-import { setTimeout } from 'timers';
 
     export default {
         name: "viewLogin",
