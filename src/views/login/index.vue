@@ -5,7 +5,7 @@
 
     }
     .loginForm {
-        width: 320px;
+        width: 240px;
     }
 </style>
 
@@ -35,13 +35,21 @@
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">登录</el-button>
+                <el-button
+                    type="primary"
+                    @click="handleLoginClick">
+                    登录
+                </el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
+    import hash from "../../utils/hash";
+    import api from "../../api";
+import { setTimeout } from 'timers';
+
     export default {
         name: "viewLogin",
         props: {
@@ -55,6 +63,7 @@
                 //#region 页面内容绑定数据
                     account: "",
                     password: "",
+                    jmpUrl: "",
                 //#endregion
 
                 //#region 页面样式绑定数据
@@ -62,7 +71,10 @@
             };
         },
         watch: {
-
+            "$route": {
+                handler: "handleRouteChange",
+                immediate: true,
+            }
         },
         computed: {
             //#region 常量计算属性
@@ -76,9 +88,55 @@
         },
         methods: {
             //#region 页面事件方法
+                handleRouteChange (nv) {
+                    if (nv.query.jmp) {
+                        this.jmpUrl = nv.query.jmp;
+                        console.log(this.jmpUrl);
+                    }
+                },
+                handleLoginClick () {
+                    if (!this.account) {
+                        this.$message({
+                            type: "warning",
+                            message: "请输入登录名称",
+                        });
+                        return;
+                    }
+                    if (!this.password) {
+                        this.$message({
+                            type: "warning",
+                            message: "请输入登录密码",
+                        });
+                        return;
+                    }
+                    this.b_login();
+                },
             //#endregion
 
             //#region 业务逻辑方法
+                async b_login () {
+                    let params = {
+                        account: this.account,
+                        password: hash.SHA256(this.password),
+                    };
+                    let result = await api.userLogin(params);
+                    if (result) {
+                        if (result.status) {
+                            if (this.jmpUrl) {
+                                location.assign(`${ this.jmpUrl }?t=${ encodeURIComponent(result.data.token) }`);
+                            }
+                            else {
+
+                            }
+                        }
+                        else {
+                            this.$message({
+                                type: "error",
+                                message: result.message, 
+                            });
+                        }
+                    }
+                },
             //#endregion
 
             //#region 接口访问方法
@@ -97,7 +155,7 @@
 
         },
         mounted () {
-
+            console.log(encodeURIComponent("http://www.baidu.com/"));
         },
         components: {
 

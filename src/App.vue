@@ -8,6 +8,10 @@
         width: 100%;
         height: 100%;
     }
+
+    .elHeader {
+        border-bottom: solid 1px #eee;
+    }
 </style>
 
 <style>
@@ -24,7 +28,10 @@
 <template>
     <el-container
         id="app">
-        <el-header>Header</el-header>
+        <el-header
+            height="50px"
+            class="elHeader">
+        </el-header>
         <el-main>
             <router-view></router-view>
         </el-main>
