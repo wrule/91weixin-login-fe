@@ -10,6 +10,9 @@
     }
     .elHeader {
         border-bottom: solid 1px #eee;
+        display: flex;
+        align-items: center;
+        font-size: 20px;
     }
 </style>
 
@@ -34,6 +37,7 @@
         <el-header
             height="50px"
             class="elHeader">
+            <span>91微信登录平台</span>
         </el-header>
         <el-main>
             <router-view></router-view>

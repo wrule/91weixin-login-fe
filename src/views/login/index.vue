@@ -95,12 +95,13 @@
                 handleRouteChange (nv) {
                     if (nv.query.jmp) {
                         this.jmpUrl = nv.query.jmp;
+                        localStorage.setItem("jmpUrl", this.jmpUrl);
                     }
                     else {
-                        this.$message({
-                            type: "error",
-                            message: "无效跳转地址",
-                        });  
+                        // this.$message({
+                        //     type: "error",
+                        //     message: "无效跳转地址",
+                        // });
                     }
                 },
                 handleLoginClick () {
@@ -131,6 +132,7 @@
                     let result = await api.userLogin(params);
                     if (result) {
                         if (result.status) {
+                            this.jmpUrl = localStorage.getItem("jmpUrl");
                             if (this.jmpUrl) {
                                 location.assign(`${ this.jmpUrl }?t=${ encodeURIComponent(result.data.token) }`);
                             }

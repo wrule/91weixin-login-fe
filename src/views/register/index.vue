@@ -170,7 +170,23 @@
                     user.password = hash.SHA256(user.password);
                     let result = await api.registerUser(user);
                     if (result) {
-                        console.log(result);
+                        if (result.status) {
+                            let account = result.data.account;
+                            this.$alert("您已经注册成功，点击确定登录系统", "注册成功", {
+                                showClose: false,
+                                confirmButtonText: "确定",
+                                callback: action => {
+                                    this.$router.push("/login");
+                                }
+                            });
+                        }
+                        else {
+                            this.$message({
+                                type: "error",
+                                message: result.message,
+                            });
+                            this.b_newCAPTCHA();
+                        }
                     }
                 },
                 async b_newCAPTCHA () {
