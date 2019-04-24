@@ -19,16 +19,6 @@ function http (config) {
             if (response.status === 401) {
                 // 需要跳转
             }
-            else if (response.status === 403) {
-                // iView.Message.error('权限不足，禁止访问！');
-            }
-            else if (response.status === 500) {
-
-            }
-            else if (response.status !== 200) {
-                // iView.Message.error(response.data.msg);
-            }
-
             if (response.status == 200) {
                 resolve(response.data);
             }

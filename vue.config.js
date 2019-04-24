@@ -6,7 +6,7 @@ module.exports = {
         open: true,
         proxy: {
             "/api": {
-                target: "http://www.91weixin.net:10241/",
+                target: "http://localhost:10241/",
                 changeOrigin: true,
                 secure: false,
             },

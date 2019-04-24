@@ -12,7 +12,10 @@
         border-bottom: solid 1px #eee;
         display: flex;
         align-items: center;
+    }
+    .sysTitle {
         font-size: 20px;
+        font-weight: bold;
     }
 </style>
 
@@ -29,15 +32,13 @@
     }
 </style>
 
-
-
 <template>
     <el-container
         id="app">
         <el-header
             height="50px"
             class="elHeader">
-            <span>91微信登录平台</span>
+            <span class="sysTitle">91微信登录平台</span>
         </el-header>
         <el-main>
             <router-view></router-view>

@@ -6,7 +6,7 @@
         width: 28px;
         height: 28px;
         border-radius: 28px;
-        background-color: #f7f7f7;
+        background-color: #eee;
         transition: background-color 0.3s;
         display: flex;
         justify-content: center;
@@ -14,7 +14,7 @@
         cursor: pointer;
     }
     .refreshButton:hover {
-        background-color: #f0f0f0;
+        background-color: #ddd;
     }
     .refreshButton i {
         font-size: 18px;

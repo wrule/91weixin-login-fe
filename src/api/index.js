@@ -13,6 +13,7 @@ export default {
             return null;
         }
     },
+    // 用户登录验证
     async userLogin (params) {
         let reqUrl = "/api/91wx/login";
         let result = await http.post(reqUrl, params);
