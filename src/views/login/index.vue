@@ -31,7 +31,7 @@
             label-position="left">
             <el-form-item>
                 <el-input
-                    placeholder="昵称/手机号/邮箱/账户"
+                    placeholder="昵称/手机号/邮箱"
                     clearable
                     v-model="account"
                     @clear="handleClear">
@@ -156,7 +156,7 @@
                     if (this.account && this.password) {
                         let loginInfo = {
                             account: this.account,
-                            password: this.password, 
+                            password: this.password,
                         };
                         let base64Str = this.base64Encode(loginInfo);
                         localStorage.setItem("loginInfo", base64Str);
@@ -174,6 +174,9 @@
                         account: this.account,
                         password: hash.SHA256(this.password),
                     };
+                    // if (!isNaN(Number(params.account))) {
+                    //     params.account = this.accountNum(params.account);
+                    // }
                     let result = await api.userLogin(params);
                     if (result) {
                         if (result.status) {
@@ -222,6 +225,10 @@
                     let jsonStr = Base64.decode(str);
                     let jsonObj = JSON.parse(jsonStr);
                     return jsonObj;
+                },
+                // 账户字符串转数字
+                accountNum (str) {
+                    return Math.floor(Number(str) - 10000).toString();
                 },
             //#endregion
 

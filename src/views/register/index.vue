@@ -57,7 +57,8 @@
                     placeholder="请再次输入密码"
                     clearable
                     type="password"
-                    v-model="rePassword">
+                    v-model="rePassword"
+                    @blur="handleRePasswordBlur">
                 </el-input>
             </el-form-item>
             <el-form-item
@@ -108,7 +109,6 @@
 <script>
     import api from "../../api";
     import refreshButton from "../../components/refreshButton";
-    import jsSHA from "jssha";
     import hash from "../../utils/hash";
 
     export default {
@@ -156,15 +156,55 @@
         },
         methods: {
             //#region 页面事件方法
+                // 注册按钮点击事件
                 handleRegClick () {
+                    if (!this.user.nickname) {
+                        this.$message({
+                            type: "warning",
+                            message: "请输入昵称",
+                        });
+                        return;
+                    }
+                    if (!this.user.password) {
+                        this.$message({
+                            type: "warning",
+                            message: "请输入密码",
+                        });
+                        return;
+                    }
+                    if (this.user.password != this.rePassword) {
+                        this.$message({
+                            type: "warning",
+                            message: "两次输入密码不一致",
+                        });
+                        return;
+                    }
+                    if (!this.user.captcha.code) {
+                        this.$message({
+                            type: "warning",
+                            message: "请输入验证码",
+                        });
+                        return;
+                    }
                     this.b_registerUser();
                 },
+                // 刷新验证码按钮点击事件
                 handleRefreshClick () {
                     this.b_updateCAPTCHA();
+                },
+                // 重复输入密码验证事件
+                handleRePasswordBlur () {
+                    if (this.user.password != this.rePassword) {
+                        this.$message({
+                            type: "warning",
+                            message: "两次输入密码不一致",
+                        });
+                    }
                 },
             //#endregion
 
             //#region 业务逻辑方法
+                // 注册用户逻辑
                 async b_registerUser () {
                     let user = JSON.parse(JSON.stringify(this.user));
                     user.password = hash.SHA256(user.password);
@@ -172,11 +212,11 @@
                     if (result) {
                         if (result.status) {
                             let account = result.data.account;
-                            this.$alert("您已经注册成功，点击确定登录系统", "注册成功", {
+                            this.$alert(`你已经注册成功，账户为：${ this.accountStr(account) }，点击确定登录系统`, "注册成功", {
                                 showClose: false,
                                 confirmButtonText: "确定",
                                 callback: action => {
-                                    this.$router.push("/login");
+                                    this.$router.push("/");
                                 }
                             });
                         }
@@ -189,6 +229,7 @@
                         }
                     }
                 },
+                // 获取新的验证码
                 async b_newCAPTCHA () {
                     let result = await api.newCAPTCHA();
                     if (result) {
@@ -196,6 +237,7 @@
                         this.svgImage = result.svgImage;
                     }
                 },
+                // 更新验证码
                 async b_updateCAPTCHA () {
                     let params = {
                         uid: this.user.captcha.uid,
@@ -211,6 +253,10 @@
             //#endregion
 
             //#region 数据转换方法
+                // 格式化账户字符串
+                accountStr (account) {
+                    return (Math.floor(Number(account)) + 10000).toString();
+                },
             //#endregion
 
             //#region 自动样式方法
