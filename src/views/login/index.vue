@@ -182,7 +182,8 @@
                         if (result.status) {
                             this.jmpUrl = localStorage.getItem("jmpUrl");
                             if (this.jmpUrl) {
-                                location.assign(`${ this.jmpUrl }?t=${ encodeURIComponent(result.data.token) }`);
+                                localStorage.setItem("token", result.data.token);
+                                location.assign(this.jmpUrl);
                             }
                             else {
                                 this.$message({
