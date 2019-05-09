@@ -19,3 +19,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+/91weixin-login/
+/91weixin-login.zip
+/upload.sh
+/copy.sh
